@@ -1,12 +1,24 @@
-import "./App.css";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import ThemeProvider from "./theme/ThemeProvider";
+import MainPage from "./pages/MainPage";
+// import PostDetailPage from "./pages/PostDetailPage";
 
 function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-red-500">
-      <h1 className="text-white text-4xl font-bold p-4 rounded-lg shadow-lg bg-black/30">
-        Tailwind CSS 적용 완료! 🎉
-      </h1>
-    </div>
+    <ThemeProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          {/* <Route path="/post/:id" element={<PostDetailPage />} /> */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
 
