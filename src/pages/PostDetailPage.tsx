@@ -1,4 +1,3 @@
-// src/pages/PostDetailPage.tsx
 import { useParams } from "react-router-dom";
 import { Box } from "@mui/material";
 import Header from "../components/layout/Header";
@@ -13,7 +12,6 @@ function PostDetailPage() {
   const { id } = useParams<{ id: string }>();
   const { mode, toggleColorMode } = useThemeContext();
 
-  // 샘플 포스트 데이터 - 실제로는 API 호출 등을 통해 가져올 수 있습니다
   const post = useMemo(
     () => ({
       id: id,
@@ -24,7 +22,7 @@ function PostDetailPage() {
       content: [
         {
           type: "image",
-          url: "https://placehold.co/400x300",
+          url: "https://placehold.co/600x400",
           alt: "React 최적화 이미지",
         },
         {
@@ -33,7 +31,7 @@ function PostDetailPage() {
         },
         {
           type: "image",
-          url: "https://placehold.co/400x400",
+          url: "https://placehold.co/600x400",
           alt: "코드 예시 이미지",
         },
         {
@@ -50,10 +48,12 @@ function PostDetailPage() {
         },
         {
           type: "image",
-          url: "https://placehold.co/400x400",
+          url: "https://placehold.co/600x400",
           alt: "최적화 결과 이미지",
         },
       ],
+      commentCount: 2,
+      likeCount: 5,
     }),
     [id]
   );
@@ -64,12 +64,17 @@ function PostDetailPage() {
         minHeight: "100vh",
         bgcolor: "background.default",
         color: "text.primary",
-        position: "relative", // 부모 요소에 relative 설정
+        position: "relative",
       }}
     >
       <Header mode={mode} toggleColorMode={toggleColorMode} />
       <Box sx={{ height: { xs: 56, md: 64 } }} />
-      <FloatingActionButtons />
+
+      <FloatingActionButtons
+        postId={post.id}
+        likeCount={post.likeCount}
+        commentCount={post.commentCount}
+      />
 
       <Box
         sx={{
@@ -77,6 +82,7 @@ function PostDetailPage() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          pb: { xs: 8, md: 4 },
         }}
       >
         <Box

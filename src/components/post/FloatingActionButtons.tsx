@@ -13,22 +13,24 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
+import CommentDialog from "./CommentDialog";
 
 interface FloatingActionButtonsProps {
+  postId: string | undefined;
   likeCount?: number;
   commentCount?: number;
 }
 
 function FloatingActionButtons({
+  postId,
   likeCount = 0,
-  commentCount = 0,
+  commentCount = 2,
 }: FloatingActionButtonsProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [liked, setLiked] = useState(false);
-  const [showComments, setShowComments] = useState(false);
+  const [commentDialogOpen, setCommentDialogOpen] = useState(false);
 
-  // 모바일 환경에서는 하단에 고정된 버튼으로 변경
   const mobilePosition = {
     position: "fixed",
     bottom: 0,
@@ -48,7 +50,7 @@ function FloatingActionButtons({
 
   const desktopPosition = {
     position: "fixed",
-    right: { md: 32, lg: "calc((100% - 900px) / 2 - 70px)" }, // 콘텐츠 영역 오른쪽에 고정
+    right: { md: 32, lg: "calc((100% - 900px) / 2 - 70px)" },
     top: "50%",
     transform: "translateY(-50%)",
     display: "flex",
@@ -61,8 +63,8 @@ function FloatingActionButtons({
     setLiked(!liked);
   };
 
-  const handleComment = () => {
-    setShowComments(!showComments);
+  const handleCommentClick = () => {
+    setCommentDialogOpen(true);
   };
 
   const handleShare = () => {
@@ -78,51 +80,18 @@ function FloatingActionButtons({
   };
 
   return (
-    <Box sx={isMobile ? mobilePosition : desktopPosition}>
-      <Box
-        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-      >
-        <Tooltip title="좋아요">
-          <IconButton
-            onClick={handleLike}
-            sx={{
-              border: 1,
-              borderColor: "divider",
-              borderRadius: 1,
-              bgcolor: "background.paper",
-              boxShadow: 1,
-              "&:hover": {
-                bgcolor: "action.hover",
-              },
-              color: liked ? "primary.main" : "inherit",
-            }}
-            aria-label="좋아요"
-          >
-            {liked ? (
-              <ThumbUpIcon fontSize="small" />
-            ) : (
-              <ThumbUpOutlinedIcon fontSize="small" />
-            )}
-          </IconButton>
-        </Tooltip>
-      </Box>
-
-      <Box
-        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-      >
-        <Tooltip title="댓글">
-          <Badge
-            badgeContent={commentCount}
-            color="primary"
-            sx={{
-              "& .MuiBadge-badge": {
-                right: isMobile ? -3 : 3,
-                top: isMobile ? 3 : 3,
-              },
-            }}
-          >
+    <>
+      <Box sx={isMobile ? mobilePosition : desktopPosition}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Tooltip title="좋아요">
             <IconButton
-              onClick={handleComment}
+              onClick={handleLike}
               sx={{
                 border: 1,
                 borderColor: "divider",
@@ -132,44 +101,98 @@ function FloatingActionButtons({
                 "&:hover": {
                   bgcolor: "action.hover",
                 },
-                color: showComments ? "primary.main" : "inherit",
+                color: liked ? "primary.main" : "inherit",
               }}
-              aria-label="댓글"
+              aria-label="좋아요"
             >
-              {showComments ? (
-                <ChatBubbleIcon fontSize="small" />
+              {liked ? (
+                <ThumbUpIcon fontSize="small" />
               ) : (
-                <ChatBubbleOutlineOutlinedIcon fontSize="small" />
+                <ThumbUpOutlinedIcon fontSize="small" />
               )}
             </IconButton>
-          </Badge>
+          </Tooltip>
+          {!isMobile && (
+            <Typography variant="caption" sx={{ mt: 0.5 }}>
+              {likeCount + (liked ? 1 : 0)}
+            </Typography>
+          )}
+        </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Tooltip title="댓글">
+            <Badge
+              badgeContent={commentCount}
+              color="primary"
+              sx={{
+                "& .MuiBadge-badge": {
+                  right: isMobile ? -3 : 3,
+                  top: isMobile ? 3 : 3,
+                },
+              }}
+            >
+              <IconButton
+                onClick={handleCommentClick}
+                sx={{
+                  border: 1,
+                  borderColor: "divider",
+                  borderRadius: 1,
+                  bgcolor: "background.paper",
+                  boxShadow: 1,
+                  "&:hover": {
+                    bgcolor: "action.hover",
+                  },
+                  color: commentDialogOpen ? "primary.main" : "inherit",
+                }}
+                aria-label="댓글"
+              >
+                {commentDialogOpen ? (
+                  <ChatBubbleIcon fontSize="small" />
+                ) : (
+                  <ChatBubbleOutlineOutlinedIcon fontSize="small" />
+                )}
+              </IconButton>
+            </Badge>
+          </Tooltip>
+          {!isMobile && commentCount > 0 && (
+            <Typography variant="caption" sx={{ mt: 0.5 }}>
+              {commentCount}
+            </Typography>
+          )}
+        </Box>
+
+        <Tooltip title="공유하기">
+          <IconButton
+            onClick={handleShare}
+            sx={{
+              border: 1,
+              borderColor: "divider",
+              borderRadius: 1,
+              bgcolor: "background.paper",
+              boxShadow: 1,
+              "&:hover": {
+                bgcolor: "action.hover",
+              },
+            }}
+            aria-label="공유하기"
+          >
+            <ShareOutlinedIcon fontSize="small" />
+          </IconButton>
         </Tooltip>
-        {!isMobile && commentCount > 0 && (
-          <Typography variant="caption" sx={{ mt: 0.5 }}>
-            {commentCount}
-          </Typography>
-        )}
       </Box>
 
-      <Tooltip title="공유하기">
-        <IconButton
-          onClick={handleShare}
-          sx={{
-            border: 1,
-            borderColor: "divider",
-            borderRadius: 1,
-            bgcolor: "background.paper",
-            boxShadow: 1,
-            "&:hover": {
-              bgcolor: "action.hover",
-            },
-          }}
-          aria-label="공유하기"
-        >
-          <ShareOutlinedIcon fontSize="small" />
-        </IconButton>
-      </Tooltip>
-    </Box>
+      <CommentDialog
+        open={commentDialogOpen}
+        onClose={() => setCommentDialogOpen(false)}
+        postId={postId}
+      />
+    </>
   );
 }
 
