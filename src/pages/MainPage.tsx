@@ -19,6 +19,7 @@ function MainPage() {
       description: "불필요한 렌더링을 줄이고 성능을 높이는 방법 🚀",
       date: "2024.11.23",
       thumbnail: "최적화",
+      content: undefined,
       tags: ["Chip", "Chip", "Chip"],
     },
     {
@@ -27,6 +28,7 @@ function MainPage() {
       description: "불필요한 렌더링을 줄이고 성능을 높이는 방법 🚀",
       date: "2024.11.22",
       thumbnail: "최적화",
+      content: undefined,
       tags: ["Chip", "Chip", "Chip"],
     },
     {
@@ -35,6 +37,7 @@ function MainPage() {
       description: "불필요한 렌더링을 줄이고 성능을 높이는 방법 🚀",
       date: "2024.11.21",
       thumbnail: "최적화",
+      content: undefined,
       tags: ["Chip", "Chip", "Chip"],
     },
   ];

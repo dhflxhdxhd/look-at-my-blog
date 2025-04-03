@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import ThemeProvider from "./theme/ThemeProvider";
 import MainPage from "./pages/MainPage";
-// import PostDetailPage from "./pages/PostDetailPage";
+import PostDetailPage from "./pages/PostDetailPage";
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<MainPage />} />
-          {/* <Route path="/post/:id" element={<PostDetailPage />} /> */}
+          <Route path="/post/:id" element={<PostDetailPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Router>

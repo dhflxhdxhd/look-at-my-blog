@@ -1,9 +1,11 @@
+// src/types/post.types.ts
+
 /**
  * 블로그 포스트 타입 정의
  */
 export interface Post {
   /** 포스트 고유 ID */
-  id: number;
+  id: number | undefined;
 
   /** 포스트 제목 */
   title: string;
@@ -15,19 +17,36 @@ export interface Post {
   date: string;
 
   /** 썸네일 이미지 텍스트 */
-  thumbnail: string;
+  thumbnail?: string;
 
-  /** 포스트 태그 목록 */
-  tags: string[];
+  /** 포스트 내용 */
+  content: ContentItem[] | undefined;
 
-  /** 포스트 내용 (HTML 또는 마크다운) - 추후 구현 시 사용 */
-  content?: string;
+  /** 태그 목록 */
+  tags?: string[];
 
   /** 작성자 정보 - 추후 구현 시 사용 */
   author?: Author;
 
   /** 댓글 목록 - 추후 구현 시 사용 */
   comments?: Comment[];
+}
+
+/**
+ * 포스트 콘텐츠 아이템 타입
+ */
+export interface ContentItem {
+  /** 컨텐츠 타입 (image, paragraph 등) */
+  type: string;
+
+  /** 이미지 URL (type이 image인 경우) */
+  url?: string;
+
+  /** 이미지 대체 텍스트 (type이 image인 경우) */
+  alt?: string;
+
+  /** 텍스트 내용 (type이 paragraph인 경우) */
+  text?: string;
 }
 
 /**
