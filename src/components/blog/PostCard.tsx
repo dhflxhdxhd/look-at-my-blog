@@ -119,23 +119,27 @@ function PostCard({ post }: PostCardProps) {
                 gap: 0.5,
               }}
             >
-              {post.tags.map((tag, index) => (
-                <Chip
-                  key={`${post.id}-${index}`}
-                  label={tag}
-                  size="small"
-                  sx={{
-                    bgcolor:
-                      theme.palette.mode === "light" ? "grey.200" : "grey.800",
-                    "&:hover": {
+              {post.tags &&
+                post.tags.length > 0 &&
+                post.tags.map((tag, index) => (
+                  <Chip
+                    key={`${post.id}-${index}`}
+                    label={tag}
+                    size="small"
+                    sx={{
                       bgcolor:
                         theme.palette.mode === "light"
-                          ? "grey.300"
-                          : "grey.700",
-                    },
-                  }}
-                />
-              ))}
+                          ? "grey.200"
+                          : "grey.800",
+                      "&:hover": {
+                        bgcolor:
+                          theme.palette.mode === "light"
+                            ? "grey.300"
+                            : "grey.700",
+                      },
+                    }}
+                  />
+                ))}
             </Stack>
 
             {/* 날짜 */}

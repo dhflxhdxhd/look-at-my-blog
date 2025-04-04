@@ -86,7 +86,7 @@ export interface Comment {
 /**
  * 블로그 카테고리 타입 정의
  */
-export type Category = "POSTS" | "TECH" | "DAILY";
+export type Category = "POSTS" | "DAILY" | "INFO";
 
 /**
  * 다크모드 테마 상태 타입 정의

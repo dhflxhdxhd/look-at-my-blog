@@ -53,7 +53,8 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
           },
         },
         typography: {
-          fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+          fontFamily:
+            '"Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
         },
       }),
     [mode]

@@ -72,8 +72,7 @@ function MainPage() {
             px: 2,
           }}
         >
-          <Banner />
-
+          <Banner mode={mode} toggleColorMode={toggleColorMode} />
           <CategoryTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
           <PostList posts={posts} />

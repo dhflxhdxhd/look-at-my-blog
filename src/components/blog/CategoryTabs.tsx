@@ -29,9 +29,11 @@ function CategoryTabs({ activeTab, setActiveTab }: CategoryTabsProps) {
         onChange={handleChange}
         variant="scrollable"
         scrollButtons="auto"
-        textColor="primary"
-        indicatorColor="primary"
-        aria-label="blog categories"
+        TabIndicatorProps={{
+          style: {
+            backgroundColor: "#90b6f2",
+          },
+        }}
         sx={{
           "& .MuiTab-root": {
             px: { xs: 2, md: 3 },
@@ -39,11 +41,43 @@ function CategoryTabs({ activeTab, setActiveTab }: CategoryTabsProps) {
             minWidth: "unset",
             textTransform: "none",
             fontSize: { xs: 14, md: 16 },
+            color: "text.secondary",
+            "&.Mui-selected": {
+              color: "#90b6f2",
+            },
+            "&:hover": {
+              backgroundColor: "transparent",
+            },
+            "&:focus": {
+              outline: "none",
+            },
+            "&.Mui-focusVisible": {
+              outline: "none",
+              boxShadow: "none",
+              backgroundColor: "transparent",
+            },
+          },
+          "& .MuiTouchRipple-root": {
+            display: "none",
           },
         }}
       >
         {tabs.map((tab) => (
-          <Tab key={tab} label={tab} value={tab} />
+          <Tab
+            key={tab}
+            label={tab}
+            value={tab}
+            disableRipple
+            disableFocusRipple
+            sx={{
+              "&:focus": {
+                outline: "none",
+              },
+              "&::moz-focus-inner": {
+                border: 0,
+              },
+            }}
+          />
         ))}
       </Tabs>
     </Box>
