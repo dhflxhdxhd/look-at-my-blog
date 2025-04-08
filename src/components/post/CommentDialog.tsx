@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions,
   TextField,
   Button,
   Box,
@@ -38,7 +37,7 @@ interface CommentDialogProps {
   postId: string | undefined;
 }
 
-function CommentDialog({ open, onClose, postId }: CommentDialogProps) {
+function CommentDialog({ open, onClose }: CommentDialogProps) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [commentText, setCommentText] = useState("");
@@ -253,7 +252,9 @@ function CommentDialog({ open, onClose, postId }: CommentDialogProps) {
             endIcon={<SendIcon />}
             onClick={handleCommentSubmit}
             disabled={commentText.trim() === ""}
-          />
+          >
+            작성
+          </Button>
         </Box>
       </Paper>
     </Dialog>

@@ -1,4 +1,5 @@
-import { Box, Typography } from "@mui/material";
+// src/components/post/PostContent.tsx
+import { Box } from "@mui/material";
 import PostImage from "./PostImage";
 import PostParagraph from "./PostParagraph";
 

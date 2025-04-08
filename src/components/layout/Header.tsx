@@ -1,12 +1,12 @@
+// src/components/layout/Header.tsx
 import {
-  Button,
-  Switch,
   Box,
+  Switch,
   useTheme,
   useMediaQuery,
   PaletteMode,
-  AppBar,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 
@@ -20,17 +20,14 @@ function Header({ mode, toggleColorMode }: HeaderProps) {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <AppBar
-      position="fixed"
-      color="inherit"
-      elevation={0}
+    <Box
+      component="header"
       sx={{
         width: "100%",
         py: { xs: 1, md: 1.5 },
+        backgroundColor: theme.palette.mode === "light" ? "#ffffff" : "#121212",
         borderBottom: "1px solid",
         borderColor: "divider",
-        backgroundColor: theme.palette.mode === "light" ? "#ffffff" : "#121212",
-        zIndex: theme.zIndex.drawer + 1,
       }}
     >
       <Box
@@ -50,7 +47,26 @@ function Header({ mode, toggleColorMode }: HeaderProps) {
             alignItems: "center",
           }}
         >
-          <p>블로그입니다</p>
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <Box
+              sx={{
+                border: 1,
+                borderColor: "divider",
+                px: { xs: 1.5, md: 2 },
+                py: { xs: 0.5, md: 0.75 },
+                borderRadius: 1,
+                textTransform: "none",
+                fontSize: { xs: 14, md: 16 },
+                color: "text.primary",
+                "&:hover": {
+                  bgcolor: "action.hover",
+                },
+              }}
+            >
+              Main
+            </Box>
+          </Link>
+
           <Box sx={{ display: "flex", alignItems: "center" }}>
             {mode === "dark" ? (
               <Brightness7Icon fontSize="small" />
@@ -66,7 +82,7 @@ function Header({ mode, toggleColorMode }: HeaderProps) {
           </Box>
         </Box>
       </Box>
-    </AppBar>
+    </Box>
   );
 }
 

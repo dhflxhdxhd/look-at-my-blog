@@ -5,7 +5,7 @@
  */
 export interface Post {
   /** 포스트 고유 ID */
-  id: number | undefined;
+  id: string | number | undefined;
 
   /** 포스트 제목 */
   title: string;
@@ -24,6 +24,12 @@ export interface Post {
 
   /** 태그 목록 */
   tags?: string[];
+
+  /** 좋아요 수 */
+  likeCount?: number;
+
+  /** 댓글 수 */
+  commentCount?: number;
 
   /** 작성자 정보 - 추후 구현 시 사용 */
   author?: Author;

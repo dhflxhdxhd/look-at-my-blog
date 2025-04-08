@@ -1,4 +1,3 @@
-// src/components/blog/PostList.tsx
 import { Stack } from "@mui/material";
 import PostCard from "./PostCard";
 import { Post } from "../../types/post.types";

@@ -1,4 +1,3 @@
-// src/components/blog/PostCard.tsx
 import {
   Box,
   Typography,

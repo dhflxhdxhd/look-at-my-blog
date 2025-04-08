@@ -1,11 +1,11 @@
 // src/components/blog/Banner.tsx
-import { Box, PaletteMode, useTheme } from "@mui/material";
-interface HeaderProps {
+import { Box, PaletteMode } from "@mui/material";
+
+interface BannerProps {
   mode: PaletteMode;
-  toggleColorMode: () => void;
 }
-function Banner({ mode }: HeaderProps) {
-  const theme = useTheme();
+
+function Banner({ mode }: BannerProps) {
   const lightPath = "/image/Banner_light.svg";
   const darkPath = "/image/Banner_dark.svg";
 
@@ -20,7 +20,7 @@ function Banner({ mode }: HeaderProps) {
       }}
     >
       <img
-        src={theme.palette.mode === "light" ? lightPath : darkPath}
+        src={mode === "light" ? lightPath : darkPath}
         alt="블로그 배너"
         style={{
           width: "100%",
