@@ -8,10 +8,13 @@ export default tseslint.config(
   { ignores: ["dist"] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    files: ["**/*.{ts,tsx}"],
+    files: ["**/*.{ts,tsx,js}"], // API 핸들러 포함을 위해 .js 추가
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        ...globals.node, // Vercel API를 위한 Node.js 전역 객체 추가
+      },
     },
     plugins: {
       "react-hooks": reactHooks,

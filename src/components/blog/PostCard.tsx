@@ -9,10 +9,18 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { Post } from "../../types/post.types";
-
+import { formatDateWithDash } from "../../utils/dateUtils";
 interface PostCardProps {
-  post: Post;
+  post: PostCard;
+}
+
+interface PostCard {
+  id: string;
+  title: string;
+  subtitle: string;
+  createdTime: string;
+  tags: Array<string>;
+  coverImage: string;
 }
 
 function PostCard({ post }: PostCardProps) {
@@ -36,7 +44,7 @@ function PostCard({ post }: PostCardProps) {
         component={Link}
         to={`/post/${post.id}`}
         sx={{
-          width: { xs: "100%", sm: 240 },
+          width: "240px",
           height: { xs: 160, sm: 160 },
           bgcolor: "#26a69a",
           display: "flex",
@@ -44,24 +52,17 @@ function PostCard({ post }: PostCardProps) {
           justifyContent: "center",
           textDecoration: "none",
           color: "white",
+          backgroundImage: post.coverImage ? `url(${post.coverImage})` : "none",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          flexShrink: 0,
           "&:hover": {
             opacity: 0.9,
           },
         }}
-      >
-        <Typography
-          variant="h4"
-          component="div"
-          sx={{
-            fontWeight: "bold",
-            color: "white",
-          }}
-        >
-          {post.thumbnail}
-        </Typography>
-      </Box>
+      ></Box>
 
-      {/* 포스트 내용 */}
+      {/* 포스트  */}
       <Box
         sx={{
           display: "flex",
@@ -97,7 +98,7 @@ function PostCard({ post }: PostCardProps) {
             paragraph
             sx={{ mb: 2 }}
           >
-            {post.description}
+            {post.subtitle}
           </Typography>
 
           <Box
@@ -150,7 +151,7 @@ function PostCard({ post }: PostCardProps) {
                 fontSize: { xs: 12, sm: 13 },
               }}
             >
-              {post.date}
+              {formatDateWithDash(post.createdTime)}
             </Typography>
           </Box>
         </CardContent>

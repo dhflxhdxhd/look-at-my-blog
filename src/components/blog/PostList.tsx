@@ -1,9 +1,15 @@
 import { Stack } from "@mui/material";
 import PostCard from "./PostCard";
-import { Post } from "../../types/post.types";
-
 interface PostListProps {
-  posts: Post[];
+  posts: Array<Post>;
+}
+interface Post {
+  id: string;
+  title: string;
+  subtitle: string;
+  createdTime: string;
+  tags: Array<string>;
+  coverImage: string;
 }
 
 function PostList({ posts }: PostListProps) {
