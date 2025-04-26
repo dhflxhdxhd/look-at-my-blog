@@ -10,18 +10,19 @@ import {
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { PaletteMode } from "@mui/material";
+import { Content } from "../../types/content.types";
 
-interface Post {
-  id: string | undefined;
-  title: string;
-  description: string;
-  date: string;
-  thumbnail?: string;
-  content: Array<{ type: string; url?: string; alt?: string; text?: string }>;
-}
+// interface Post {
+//   id: string | undefined;
+//   title: string;
+//   description: string;
+//   date: string;
+//   thumbnail?: string;
+//   content: Array<{ type: string; url?: string; alt?: string; text?: string }>;
+// }
 
 interface PostHeaderProps {
-  post: Post;
+  post: Content;
   mode: PaletteMode;
 }
 

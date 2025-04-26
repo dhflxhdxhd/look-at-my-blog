@@ -1,21 +1,23 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // console.log("API 핸들러 호출됨:", _req.method, res);
+  //   console.log("API 핸들러 호출됨:", _req.method, res);
 
   try {
-    const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+    const { pageId } = req.body;
+    if (!pageId) {
+      return res.status(400).json({ error: "Page ID is required" });
+    }
 
     const response = await fetch(
-      `https://api.notion.com/v1/databases/${process.env.VITE_NOTION_DB_ID}/query`,
+      `https://api.notion.com/v1/blocks/${pageId}/children`,
       {
-        method: "POST",
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           "Notion-Version": "2022-06-28",
           Authorization: `Bearer ${process.env.VITE_NOTION_TOKEN}`,
         },
-        body: JSON.stringify(body),
       }
     );
 
@@ -29,6 +31,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       "Access-Control-Allow-Headers",
       "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
     );
+
     const data = await response.json();
     res.status(200).json(data);
   } catch (error) {

@@ -6,7 +6,6 @@ import PostList from "../components/blog/PostList";
 import { useState, useEffect } from "react";
 import { Category } from "../types/post.types";
 import { useThemeContext } from "../theme/ThemeProvider";
-
 interface Post {
   id: string;
   title: string;
@@ -40,7 +39,13 @@ function MainPage() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            page_size: 20,
+            filter: {
+              property: "language",
+              select: {
+                equals: "React",
+              },
+            },
+            page_size: 50,
           }),
         });
         if (!response.ok) {
@@ -143,8 +148,7 @@ function MainPage() {
       }}
     >
       <Header mode={mode} toggleColorMode={toggleColorMode} />
-
-      <Toolbar variant="dense" sx={{ mb: 1 }} />
+      {/* <Toolbar variant="dense" sx={{ mb: 1 }} /> */}
 
       <Box sx={{ height: 1, bgcolor: "divider" }} />
 
@@ -165,9 +169,7 @@ function MainPage() {
           }}
         >
           <Banner mode={mode} />
-
           <CategoryTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-
           <PostList posts={notionPosts} />
         </Box>
       </Box>

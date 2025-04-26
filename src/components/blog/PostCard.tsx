@@ -98,7 +98,7 @@ function PostCard({ post }: PostCardProps) {
             paragraph
             sx={{ mb: 2 }}
           >
-            {post.subtitle}
+            {post.subtitle ? post.subtitle : "부제목입니다"}
           </Typography>
 
           <Box
@@ -119,27 +119,26 @@ function PostCard({ post }: PostCardProps) {
                 gap: 0.5,
               }}
             >
-              {post.tags &&
-                post.tags.length > 0 &&
-                post.tags.map((tag, index) => (
-                  <Chip
-                    key={`${post.id}-${index}`}
-                    label={tag}
-                    size="small"
-                    sx={{
+              {(post.tags && post.tags.length > 0
+                ? post.tags
+                : ["sample tag", "sample tag"]
+              ).map((tag, index) => (
+                <Chip
+                  key={`${post.id}-${index}`}
+                  label={tag}
+                  size="small"
+                  sx={{
+                    bgcolor:
+                      theme.palette.mode === "light" ? "grey.200" : "grey.800",
+                    "&:hover": {
                       bgcolor:
                         theme.palette.mode === "light"
-                          ? "grey.200"
-                          : "grey.800",
-                      "&:hover": {
-                        bgcolor:
-                          theme.palette.mode === "light"
-                            ? "grey.300"
-                            : "grey.700",
-                      },
-                    }}
-                  />
-                ))}
+                          ? "grey.300"
+                          : "grey.700",
+                    },
+                  }}
+                />
+              ))}
             </Stack>
 
             {/* 날짜 */}

@@ -6,57 +6,88 @@ import PostContent from "../components/post/PostContent";
 import PostFooter from "../components/post/PostFooter";
 import FloatingActionButtons from "../components/post/FloatingActionButtons";
 import { useThemeContext } from "../theme/ThemeProvider";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Content } from "../types/content.types";
+import { renderNotionBlock } from "../utils/renderNotionBlock";
+import { CodeBlock } from "../components/blocks/CodeBlock";
 
 function PostDetailPage() {
   const { id } = useParams<{ id: string }>();
   const { mode, toggleColorMode } = useThemeContext();
+  const [pageContent, setPageContent] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [contentHeader, setContentHeader] = useState<Content | null>();
+  const [error, setError] = useState<string | null>(null);
 
-  const post = useMemo(
-    () => ({
-      id: id,
-      title: "React.memo로 컴포넌트 렌더링 최적화하기",
-      description: "불필요한 렌더링을 줄이고 성능을 높이는 방법 🚀",
-      date: "2024.12.23",
-      thumbnail: "최적화",
-      content: [
-        {
-          type: "image",
-          url: "https://placehold.co/600x400",
-          alt: "React 최적화 이미지",
+  useEffect(() => {
+    console.log(id);
+  }, []);
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  const fetchPosts = async () => {
+    try {
+      setIsLoading(true);
+
+      const response = await fetch(`/api/notion-page-content`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        {
-          type: "paragraph",
-          text: "리액트에서는 부모 컴포넌트가 렌더링되면 모든 자식 컴포넌트도 함께 렌더링됩니다. 이것은 리액트의 기본적인 동작 방식이지만, 때로는 불필요한 렌더링으로 인해 성능 문제가 발생할 수 있습니다.",
-        },
-        {
-          type: "image",
-          url: "https://placehold.co/600x400",
-          alt: "코드 예시 이미지",
-        },
-        {
-          type: "paragraph",
-          text: "React.memo는 고차 컴포넌트(Higher Order Component)로, 컴포넌트의 props가 변경되지 않았다면 리렌더링을 방지하여 성능을 최적화합니다. 특히 자주 렌더링되는 큰 컴포넌트 트리에서 유용합니다.",
-        },
-        {
-          type: "paragraph",
-          text: "일반적으로 React.memo는 다음과 같은 상황에서 사용하면 좋습니다:",
-        },
-        {
-          type: "paragraph",
-          text: "1. 동일한 props로 렌더링이 자주 일어나는 컴포넌트\n2. 렌더링 비용이 비싼 컴포넌트\n3. 부모 컴포넌트의 상태 변화로 불필요하게 다시 렌더링되는 컴포넌트",
-        },
-        {
-          type: "image",
-          url: "https://placehold.co/600x400",
-          alt: "최적화 결과 이미지",
-        },
-      ],
-      commentCount: 2,
-      likeCount: 5,
-    }),
-    [id]
-  );
+        body: JSON.stringify({ pageId: id }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API 요청 실패: ${response.status}`);
+      }
+      const { results } = await response.json();
+      setPageContent(results);
+      setContentHeader(null);
+      console.log("포스트 가져오기 :", results);
+    } catch (err) {
+      console.error("포스트 가져오기 오류:", err);
+      setError(
+        err instanceof Error
+          ? err.message
+          : "포스트를 가져오는 중 오류가 발생했습니다"
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        로딩 중...
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          color: "error.main",
+        }}
+      >
+        오류: {error}
+      </Box>
+    );
+  }
 
   return (
     <Box
@@ -70,11 +101,11 @@ function PostDetailPage() {
       <Header mode={mode} toggleColorMode={toggleColorMode} />
       <Box sx={{ height: { xs: 56, md: 64 } }} />
 
-      <FloatingActionButtons
+      {/* <FloatingActionButtons
         postId={post.id}
         likeCount={post.likeCount}
         commentCount={post.commentCount}
-      />
+      /> */}
 
       <Box
         sx={{
@@ -93,8 +124,11 @@ function PostDetailPage() {
             py: { xs: 2, md: 3 },
           }}
         >
-          <PostHeader post={post} mode={mode} />
-          <PostContent content={post.content} />
+          {/* <PostHeader post={post} mode={mode} /> */}
+          {/* <PostContent content={post.content} /> */}
+          <Box className="notion-content">
+            {pageContent.map((content) => renderNotionBlock(content))}
+          </Box>
           <PostFooter />
         </Box>
       </Box>

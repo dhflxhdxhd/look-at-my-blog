@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
   line-height: 1.5;
   color-scheme: light dark;
@@ -151,3 +147,6 @@ img {
   font-weight: 900;
   font-style: normal;
 }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

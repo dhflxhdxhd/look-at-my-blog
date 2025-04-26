@@ -70,9 +70,8 @@ function CategoryTabs({ activeTab, setActiveTab }: CategoryTabsProps) {
             key={tab}
             label={tab}
             value={tab}
-            disableRipple // 클릭 효과(ripple) 제거
-            disableFocusRipple // 포커스 ripple 효과 제거
-            // 포커스 효과 및 테두리 제거를 위한 추가 스타일
+            disableRipple
+            disableFocusRipple
             sx={{
               "&:focus": {
                 outline: "none",
